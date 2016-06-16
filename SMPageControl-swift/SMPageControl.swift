@@ -115,7 +115,6 @@ class SMPageControl: UIControl {
         var image:UIImage?
         var maskingImage:CGImageRef?
         var maskSize:CGSize = CGSizeZero
-    
         
         for indexNumber in 0..<numberOfPages {
             if (indexNumber == displayedPage) {

@@ -23,7 +23,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationController?.navigationBarHidden = true
         
         spacePageControl1.numberOfPages = 10
@@ -48,6 +47,7 @@ class ViewController: UIViewController {
         spacePageControl6.setCurrentPageIndicatorImage(UIImage(named: "currentPageDot")!)
         spacePageControl6.setImage(UIImage(named: "searchDot")!, pageIndex: 0)
         spacePageControl6.setCurrentImage(UIImage(named: "currentSearchDot")!,pageIndex: 0)
+        
         /*spacePageControl6.setImage(UIImage(named: "appleDot")!, pageIndex: 1)
         spacePageControl6.setCurrentImage(UIImage(named: "currentAppleDot")!,pageIndex: 1)
         spacePageControl6.setName("Search", pageIndex: 0)
@@ -64,7 +64,6 @@ class ViewController: UIViewController {
         spacePageControl8.pageIndicatorMaskImage = UIImage(named: "appleMask")!*/
         
         
-        
         spacePageControl1.addTarget(self, action: #selector(ViewController.spacePageControl(_:)), forControlEvents:  UIControlEvents.ValueChanged)
         spacePageControl2.addTarget(self, action: #selector(ViewController.spacePageControl(_:)), forControlEvents:  UIControlEvents.ValueChanged)
         spacePageControl3.addTarget(self, action: #selector(ViewController.spacePageControl(_:)), forControlEvents:  UIControlEvents.ValueChanged)
@@ -78,6 +77,7 @@ class ViewController: UIViewController {
     @IBAction func pageControl(sender:AnyObject){
           print("Current Page (UIPageControl : \(pageControl.currentPage))", terminator: "\n")
     }
+    
     func spacePageControl(sender:SMPageControl) {
         print("Current Page (SMPageControl : \(sender.currentPage))", terminator: "")
     }

@@ -81,7 +81,7 @@ class SMPageControl: UIControl {
     var cgImageMasks = [Int: CGImageRef]()
     var pageRects = [CGRect]()
     
-    var accessibilityPageControl:UIPageControl?
+    var accessibilityPageControl:UIPageControl = UIPageControl.init()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -172,7 +172,6 @@ class SMPageControl: UIControl {
         setStyleWithDefaults()
         self.isAccessibilityElement = true
         self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently
-        accessibilityPageControl = UIPageControl.init()
         self.contentMode = UIViewContentMode.Redraw
     }
     func updateCurrentPageDisplay(){
@@ -315,14 +314,18 @@ class SMPageControl: UIControl {
     func createMaskForImage(image:UIImage) -> CGImageRef {
         let pixelsWide = image.size.width * image.scale
         let pixelsHigh = image.size.height * image.scale
-        let bitmapBytesPerRow = (pixelsWide * 1);
-        let context:CGContextRef = CGBitmapContextCreate(nil, Int(pixelsWide), Int(pixelsHigh), CGImageGetBitsPerComponent(image.CGImage), Int(bitmapBytesPerRow), nil, CGImageAlphaInfo.PremultipliedFirst.rawValue | CGBitmapInfo.ByteOrder32Little.rawValue)!;
-        CGContextTranslateCTM(context, 0.0, pixelsHigh);
+        let context:CGContextRef = CGBitmapContextCreate(nil,
+                                               Int(pixelsWide),
+                                               Int(pixelsHigh),
+                                               CGImageGetBitsPerComponent(image.CGImage),
+                                               0,
+                                               CGColorSpaceCreateDeviceRGB(),
+                                               CGImageAlphaInfo.PremultipliedLast.rawValue)!
+        CGContextTranslateCTM(context, 0.0, pixelsHigh)
         CGContextScaleCTM(context, 1.0, -1.0);
-        
-        CGContextDrawImage(context, CGRectMake(0, 0, pixelsWide, pixelsHigh), image.CGImage);
-        let maskImage:CGImageRef =  CGBitmapContextCreateImage(context)!;
-        return maskImage;
+        CGContextDrawImage(context, CGRectMake(0, 0, pixelsWide, pixelsHigh), image.CGImage)
+        let maskImage:CGImageRef =  CGBitmapContextCreateImage(context)!
+        return maskImage
     }
     
     func updateMeasuredIndicatorSizeWithSize(size:CGSize){
@@ -393,8 +396,8 @@ class SMPageControl: UIControl {
         if _numberOfPages == numberOfPages {
             return;
         }
-        accessibilityPageControl!.numberOfPages = _numberOfPages
-        numberOfPages = max(0, _numberOfPages);
+        accessibilityPageControl.numberOfPages = _numberOfPages
+        numberOfPages = _numberOfPages
         self.invalidateIntrinsicContentSize()
         updateAccessibilityValue()
         setNeedsDisplay()
@@ -405,8 +408,10 @@ class SMPageControl: UIControl {
     }
     func setCurrentPage(_currentPage:NSInteger,sendEvent:Bool,canDefer:Bool) {
         currentPage = min(max(0,_currentPage),numberOfPages - 1)
-        accessibilityPageControl?.currentPage = currentPage
+        accessibilityPageControl.currentPage = currentPage
+
         updateAccessibilityValue()
+        
         if self.defersCurrentPageDisplay == false || canDefer == false{
             displayedPage = currentPage
             setNeedsDisplay()
@@ -466,11 +471,10 @@ class SMPageControl: UIControl {
     func updateAccessibilityValue() {
         let pageName = nameForPage(currentPage)
         if pageName != nil{
-            self.accessibilityValue = "\(pageName) - \((accessibilityPageControl?.accessibilityValue)!)"
+            self.accessibilityValue = "\(pageName) - \(accessibilityPageControl.accessibilityValue)"
         }else{
-            self.accessibilityValue = (accessibilityPageControl?.accessibilityValue)!
+            self.accessibilityValue = accessibilityPageControl.accessibilityValue
         }
-        
     }
    // MARK : Tap Gesture
     // We're using touchesEnded: because we want to mimick UIPageControl as close as possible

@@ -47,13 +47,14 @@ class ViewController: UIViewController {
         spacePageControl6.setCurrentPageIndicatorImage(UIImage(named: "currentPageDot")!)
         spacePageControl6.setImage(UIImage(named: "searchDot")!, pageIndex: 0)
         spacePageControl6.setCurrentImage(UIImage(named: "currentSearchDot")!,pageIndex: 0)
-        
-        /*spacePageControl6.setImage(UIImage(named: "appleDot")!, pageIndex: 1)
+    
+        spacePageControl6.setImage(UIImage(named: "pageDot")!, pageIndex: 1)
         spacePageControl6.setCurrentImage(UIImage(named: "currentAppleDot")!,pageIndex: 1)
         spacePageControl6.setName("Search", pageIndex: 0)
         spacePageControl6.setName("Apple", pageIndex: 1)
         spacePageControl6.setCurrentPage(1)
         
+ 
         spacePageControl7.pageIndicatorTintColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.7)
         spacePageControl7.currentPageIndicatorTintColor = UIColor.yellowColor()
         spacePageControl7.setImageMask(UIImage(named: "appleMask")!, pageIndex: 1)
@@ -61,7 +62,7 @@ class ViewController: UIViewController {
 
         spacePageControl8.pageIndicatorTintColor = UIColor.redColor().colorWithAlphaComponent(0.2)
         spacePageControl8.currentPageIndicatorTintColor = UIColor.redColor()
-        spacePageControl8.pageIndicatorMaskImage = UIImage(named: "appleMask")!*/
+        spacePageControl8.setPageIndicatorMaskImage(UIImage(named: "appleMask")!)
         
         
         spacePageControl1.addTarget(self, action: #selector(ViewController.spacePageControl(_:)), forControlEvents:  UIControlEvents.ValueChanged)

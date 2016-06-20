@@ -78,7 +78,7 @@ class SMPageControl: UIControl {
     var pageImages = [NSInteger: UIImage]()
     var currentPageImages = [NSInteger: UIImage]()
     var pageImageMasks = [NSInteger: UIImage]()
-    var cgImageMasks = [Int: CGImageRef]()
+    var cgImageMasks = [NSInteger: CGImageRef]()
     var pageRects = [CGRect]()
     
     var accessibilityPageControl:UIPageControl = UIPageControl.init()
@@ -127,7 +127,7 @@ class SMPageControl: UIControl {
                 fillColor = (pageIndicatorTintColor != nil) ? pageIndicatorTintColor : UIColor.whiteColor().colorWithAlphaComponent(0.3)
                 image = pageImages[indexNumber]
                 if nil == image {
-                    image = self.pageIndicatorImage
+                    image = pageIndicatorImage
                 }
             }
             // If no finished images have been set, try a masking image
@@ -138,9 +138,11 @@ class SMPageControl: UIControl {
                     maskSize = originalImage.size
                 }
                 // If no per page mask is set, try for a global page mask!
-                if (nil == maskingImage && pageIndicatorMaskImage != nil) {
+                if (nil == maskingImage) {
                     maskingImage = pageImageMask
-                    maskSize = pageIndicatorMaskImage.size
+                    if pageIndicatorMaskImage != nil{
+                        maskSize = pageIndicatorMaskImage.size
+                    }
                 }
             }
             fillColor.set()
@@ -162,9 +164,10 @@ class SMPageControl: UIControl {
                 CGContextFillEllipseInRect(context, indicatorRect)
             }
             _pageRects.append(indicatorRect)
+            maskingImage = nil
             xOffset += measuredIndicatorWidth + indicatorMargin;
         }
-        
+
         pageRects = _pageRects;
     }
     func initialize() {
@@ -217,17 +220,17 @@ class SMPageControl: UIControl {
         }
         var dictionary = [NSInteger: UIImage]();
         switch type.value {
-        case SMPageControlImageTypeCurrent.value:
-            dictionary = currentPageImages
-            break
-        case SMPageControlImageTypeNormal.value:
-            dictionary = pageImages
-            break
-        case SMPageControlImageTypeMask.value:
-            dictionary = pageImages
-            break
-        default:
-            break
+            case SMPageControlImageTypeCurrent.value:
+                dictionary = currentPageImages
+                break
+            case SMPageControlImageTypeNormal.value:
+                dictionary = pageImages
+                break
+            case SMPageControlImageTypeMask.value:
+                dictionary = pageImageMasks
+                break
+            default:
+                break
         }
         if (image != nil){
             dictionary[pageIndex] = image
@@ -235,12 +238,12 @@ class SMPageControl: UIControl {
             dictionary.removeValueForKey(pageIndex)
         }
     }
-    func setImage(image:UIImage,pageIndex:NSInteger){
+    func setImage(image:UIImage, pageIndex:NSInteger){
         setImage(image, pageIndex: pageIndex, type: SMPageControlImageTypeNormal)
         updateMeasuredIndicatorSizes()
     }
     func setCurrentImage(image:UIImage,pageIndex:NSInteger){
-        setImage(image, pageIndex: pageIndex, type: SMPageControlImageTypeNormal)
+        setImage(image, pageIndex: pageIndex, type: SMPageControlImageTypeCurrent)
         updateMeasuredIndicatorSizes()
     }
     func setImageMask(image:UIImage?, pageIndex:NSInteger) {
@@ -249,41 +252,11 @@ class SMPageControl: UIControl {
             cgImageMasks .removeValueForKey(pageIndex)
             return
         }
-        let maskImage:CGImageRef? = createMaskForImage(image!)
-        if maskImage != nil{
+        if let maskImage:CGImageRef = createMaskForImage(image!) {
             cgImageMasks[pageIndex] = maskImage
             updateMeasuredIndicatorSizeWithSize(image!.size)
             setNeedsDisplay()
         }
-    }
-    func imageForPage(pageIndex:NSInteger, type:SMPageControlImageType) -> UIImage? {
-        if (pageIndex < 0 || pageIndex >= numberOfPages) {
-            return nil;
-        }
-        var dictionary = [NSInteger: UIImage]();
-        switch type.value {
-        case SMPageControlImageTypeCurrent.value:
-            dictionary = currentPageImages
-            break
-        case SMPageControlImageTypeNormal.value:
-            dictionary = pageImages
-            break
-        case SMPageControlImageTypeMask.value:
-            dictionary = pageImages
-            break
-        default:
-            break
-        }
-        return dictionary[pageIndex]!
-    }
-    func imageForPage(pageIndex:NSInteger) -> UIImage {
-        return imageForPage(pageIndex, type: SMPageControlImageTypeNormal)! as UIImage
-    }
-    func currentImageForPage(pageIndex:NSInteger) -> UIImage {
-        return imageForPage(pageIndex, type: SMPageControlImageTypeCurrent)! as UIImage
-    }
-    func imageMaskForPage(pageIndex:NSInteger) -> UIImage {
-        return imageForPage(pageIndex, type: SMPageControlImageTypeMask)! as UIImage
     }
     override func sizeThatFits(size:CGSize) -> CGSize {
         var sizeThatFits:CGSize = sizeForNumberOfPages(numberOfPages)
@@ -318,9 +291,9 @@ class SMPageControl: UIControl {
                                                Int(pixelsWide),
                                                Int(pixelsHigh),
                                                CGImageGetBitsPerComponent(image.CGImage),
-                                               0,
-                                               CGColorSpaceCreateDeviceRGB(),
-                                               CGImageAlphaInfo.PremultipliedLast.rawValue)!
+                                               Int(pixelsWide),
+                                               nil,
+                                               CGImageAlphaInfo.Only.rawValue)!
         CGContextTranslateCTM(context, 0.0, pixelsHigh)
         CGContextScaleCTM(context, 1.0, -1.0);
         CGContextDrawImage(context, CGRectMake(0, 0, pixelsWide, pixelsHigh), image.CGImage)
@@ -447,13 +420,10 @@ class SMPageControl: UIControl {
           return
         }
         pageIndicatorMaskImage = _pageIndicatorMaskImage
-
         pageImageMask = createMaskForImage(pageIndicatorMaskImage)
         updateMeasuredIndicatorSizes()
         setNeedsDisplay()
     }
-    
-
     // MARK : UIAccessibility
     func setName(name:String,pageIndex:NSInteger) {
         if (pageIndex < 0 || pageIndex >= numberOfPages) {
@@ -480,8 +450,8 @@ class SMPageControl: UIControl {
     // We're using touchesEnded: because we want to mimick UIPageControl as close as possible
     // As of iOS 6, UIPageControl still (as far as we know) does not use a tap gesture recognizer. This means that actions like
     // touching down, sliding around, and releasing, still results in the page incrementing or decrementing.
-    func touchesEnded(touches:NSSet,event:UIEvent) {
-        let touch = touches.anyObject()
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first
         let point = touch!.locationInView(self)
         if(SMPageControlTapBehaviorJump.value == tapBehavior.value){
             var tappedIndicatorIndex:NSInteger = NSNotFound
@@ -505,6 +475,5 @@ class SMPageControl: UIControl {
         }else{
             setCurrentPage(currentPage + 1, sendEvent: true, canDefer: true)
         }
-        
     }
 }

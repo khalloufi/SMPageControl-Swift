@@ -311,7 +311,6 @@ class SMPageControl: UIControl {
         measuredIndicatorWidth = max(measuredIndicatorWidth, size.width);
         measuredIndicatorHeight = max(measuredIndicatorHeight, size.height);
     }
-    
     func updateMeasuredIndicatorSizes(){
         measuredIndicatorWidth = indicatorDiameter;
         measuredIndicatorHeight = indicatorDiameter;
@@ -452,10 +451,7 @@ class SMPageControl: UIControl {
             self.accessibilityValue = accessibilityPageControl.accessibilityValue
         }
     }
-   // MARK : Tap Gesture
-    // We're using touchesEnded: because we want to mimick UIPageControl as close as possible
-    // As of iOS 6, UIPageControl still (as far as we know) does not use a tap gesture recognizer. This means that actions like
-    // touching down, sliding around, and releasing, still results in the page incrementing or decrementing.
+
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first
         let point = touch!.locationInView(self)

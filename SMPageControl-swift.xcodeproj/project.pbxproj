@@ -13,6 +13,7 @@
 		C2C7D5C61D0EBE160036CD05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C7D5C51D0EBE160036CD05 /* Assets.xcassets */; };
 		C2C7D5C91D0EBE160036CD05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2C7D5C71D0EBE160036CD05 /* LaunchScreen.storyboard */; };
 		C2C7D5D11D0EBE7B0036CD05 /* SMPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C7D5D01D0EBE7B0036CD05 /* SMPageControl.swift */; };
+		C2D7D3221D18259E00912987 /* SMPageControl.png in Resources */ = {isa = PBXBuildFile; fileRef = C2D7D3211D18259E00912987 /* SMPageControl.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		C2C7D5C81D0EBE160036CD05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2C7D5CA1D0EBE160036CD05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2C7D5D01D0EBE7B0036CD05 /* SMPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMPageControl.swift; sourceTree = "<group>"; };
+		C2D7D3211D18259E00912987 /* SMPageControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SMPageControl.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		C2C7D5BD1D0EBE160036CD05 /* SMPageControl-swift */ = {
 			isa = PBXGroup;
 			children = (
+				C2D7D3201D18259E00912987 /* images */,
 				C2C7D5BE1D0EBE160036CD05 /* AppDelegate.swift */,
 				C2C7D5C01D0EBE160036CD05 /* ViewController.swift */,
 				C2C7D5C51D0EBE160036CD05 /* Assets.xcassets */,
@@ -66,6 +69,14 @@
 			);
 			path = "SMPageControl-swift";
 			sourceTree = "<group>";
+		};
+		C2D7D3201D18259E00912987 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				C2D7D3211D18259E00912987 /* SMPageControl.png */,
+			);
+			path = images;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -127,6 +138,7 @@
 			files = (
 				C2C7D5C91D0EBE160036CD05 /* LaunchScreen.storyboard in Resources */,
 				C2C7D5C61D0EBE160036CD05 /* Assets.xcassets in Resources */,
+				C2D7D3221D18259E00912987 /* SMPageControl.png in Resources */,
 				C26C991F1D12CCB100B2AB77 /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

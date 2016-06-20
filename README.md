@@ -1,5 +1,49 @@
 # SMPageControl-Swift
 
+UIPageControl’s Fancy One-Upping Cousin.
+
+Designers _love_ to make beautifully custom page controls that fit in with all the wood, gradients, and inner shadows they've worked so hard perfecting. 
+
+Who can blame them?! SMPageControl makes it dead simple to give them what they want. Even better, SMPageControl is a _drop in_ replacement for UIPageControl. It mirrors all the functions of UIPageControl, with literally no changes beyond the class name.
+
+
+[Apps Currently Using SMPageControl](https://github.com/Spaceman-Labs/SMPageControl/wiki/Apps)
+
+**Using SMPageControl in your application? Let us know, and we'll add your app the list of apps!** <mailto:spaceman@spacemanlabs.com>
+
+## Moar Customization!
+
+SMPageControl has a variety of simple (yet powerful) areas of customization, and most all of them support the UIAppearance Proxy available to iOS 5.0 and newer.
+
+* Indicator Size
+* Indicator Spacing
+* Indicator Alignment
+* Images as Indicators
+* Image Masks as Indicators
+* Per-Indicator Customization
+* Directly Tappable Indicators
+* Extensive Support for UIAppearance
+* Extended Support for UIAccessibility
+* iOS 7 Ready
+
+![Screenshot](https://github.com/khalloufi/SMPageControl-Swift/blob/master/images/SMPageControl.png)
+
+## Example Usage
+
+``` Swift
+SMPageControl pageControl = SMPageControl(frame: CGRect.zero)
+pageControl.pageIndicatorTintColor = UIColor.redColor().colorWithAlphaComponent(0.2)
+pageControl.currentPageIndicatorTintColor = UIColor.redColor()
+pageControl.setPageIndicatorMaskImage(UIImage(named: "appleMask")!)
+```
+
+``` Swift
+SMPageControl pageControl = SMPageControl(frame: CGRect.zero)
+pageControl.pageIndicatorTintColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.7)
+pageControl.currentPageIndicatorTintColor = UIColor.yellowColor()
+pageControl.setImageMask(UIImage(named: "appleMask")!, pageIndex: 1)
+pageControl.setImageMask(UIImage(named: "searchMask")!, pageIndex: 0)
+```
 
 ## UIAccessibility Additions
 

@@ -74,7 +74,7 @@ class SMPageControl: UIControl {
     var measuredIndicatorHeight:CGFloat = 0
     var pageImageMask:CGImageRef!
     
-    var pageNames = [Int: String]()
+    var pageNames = [NSInteger: String]()
     var pageImages = [NSInteger: UIImage]()
     var currentPageImages = [NSInteger: UIImage]()
     var pageImageMasks = [NSInteger: UIImage]()
@@ -132,11 +132,11 @@ class SMPageControl: UIControl {
             }
             // If no finished images have been set, try a masking image
             if nil == image {
-                maskingImage = cgImageMasks[indexNumber]
-
                 if let originalImage:UIImage = pageImageMasks[indexNumber]{
                     maskSize = originalImage.size
                 }
+                
+                maskingImage = cgImageMasks[indexNumber]
                 // If no per page mask is set, try for a global page mask!
                 if (nil == maskingImage) {
                     maskingImage = pageImageMask
@@ -218,25 +218,32 @@ class SMPageControl: UIControl {
         if (pageIndex < 0 || pageIndex >= numberOfPages) {
             return;
         }
-        var dictionary = [NSInteger: UIImage]();
         switch type.value {
             case SMPageControlImageTypeCurrent.value:
-                dictionary = currentPageImages
+                if (image != nil){
+                    currentPageImages[pageIndex] = image
+                }else{
+                    currentPageImages.removeValueForKey(pageIndex)
+                }
                 break
             case SMPageControlImageTypeNormal.value:
-                dictionary = pageImages
+                if (image != nil){
+                    pageImages[pageIndex] = image
+                }else{
+                    pageImages.removeValueForKey(pageIndex)
+                }
                 break
             case SMPageControlImageTypeMask.value:
-                dictionary = pageImageMasks
+                if (image != nil){
+                    pageImageMasks[pageIndex] = image
+                }else{
+                    pageImageMasks.removeValueForKey(pageIndex)
+                }
                 break
             default:
                 break
         }
-        if (image != nil){
-            dictionary[pageIndex] = image
-        }else{
-            dictionary.removeValueForKey(pageIndex)
-        }
+        
     }
     func setImage(image:UIImage, pageIndex:NSInteger){
         setImage(image, pageIndex: pageIndex, type: SMPageControlImageTypeNormal)
@@ -248,16 +255,15 @@ class SMPageControl: UIControl {
     }
     func setImageMask(image:UIImage?, pageIndex:NSInteger) {
         setImage(image, pageIndex: pageIndex, type: SMPageControlImageTypeMask)
+
         if nil == image{
-            cgImageMasks .removeValueForKey(pageIndex)
+            cgImageMasks.removeValueForKey(pageIndex)
             return
         }
-        if let maskImage:CGImageRef = createMaskForImage(image!) {
-            cgImageMasks[pageIndex] = maskImage
-            updateMeasuredIndicatorSizeWithSize(image!.size)
-            setNeedsDisplay()
-        }
-    }
+        cgImageMasks[pageIndex] = createMaskForImage(image!)
+        updateMeasuredIndicatorSizeWithSize(image!.size)
+        setNeedsDisplay()
+}
     override func sizeThatFits(size:CGSize) -> CGSize {
         var sizeThatFits:CGSize = sizeForNumberOfPages(numberOfPages)
         sizeThatFits.height = max(sizeThatFits.height,minHeight)

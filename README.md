@@ -6,31 +6,19 @@
 Download the repository and add the file SMPageControl.swift to your project.
 
 ## Example Usage
-
 ``` Swift
-SMPageControl pageControl = SMPageControl(frame: CGRect.zero)
-pageControl.pageIndicatorTintColor = UIColor.redColor().colorWithAlphaComponent(0.2)
-pageControl.currentPageIndicatorTintColor = UIColor.redColor()
-pageControl.setPageIndicatorMaskImage(UIImage(named: "appleMask")!)
+@IBOutlet var spacePageControl1: SMPageControl!
 ```
 
 ``` Swift
-SMPageControl pageControl = SMPageControl(frame: CGRect.zero)
-pageControl.pageIndicatorTintColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.7)
-pageControl.currentPageIndicatorTintColor = UIColor.yellowColor()
-pageControl.setImageMask(UIImage(named: "appleMask")!, pageIndex: 1)
-pageControl.setImageMask(UIImage(named: "searchMask")!, pageIndex: 0)
+pageControl.setPageIndicatorImage(UIImage(named: "pokemen_color")!)
+pageControl.setCurrentPageIndicatorImage(UIImage(named: "pikatsho")!)
 ```
 
 ``` Swift
-SMPageControl pageControl = SMPageControl(frame: CGRect.zero)
-pageControl.setCurrentPageIndicatorImage(UIImage(named: "currentPageDot")!)
-pageControl.setImage(UIImage(named: "searchDot")!, pageIndex: 0)
-pageControl.setCurrentImage(UIImage(named: "currentSearchDot")!,pageIndex: 0)
-pageControl.setImage(UIImage(named: "appleDot")!, pageIndex: 1)
-pageControl.setCurrentImage(UIImage(named: "currentAppleDot")!,pageIndex: 1)
-pageControl.setName("Search", pageIndex: 0)
-pageControl.setName("Apple", pageIndex: 1)
+spacePageControl.pageIndicatorTintColor = UIColor.redColor().colorWithAlphaComponent(0.2)
+spacePageControl.currentPageIndicatorTintColor = UIColor.redColor()
+spacePageControl.setPageIndicatorMaskImage(UIImage(named: "Pokemon")!)
 ```
 ## License
 

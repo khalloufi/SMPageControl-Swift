@@ -40,8 +40,8 @@ class ViewController: UIViewController {
         spacePageControl3.alignment = SMPageControlAlignmentLeft;
         spacePageControl4.alignment = SMPageControlAlignmentRight;
         
-        spacePageControl5.setPageIndicatorImage(UIImage(named: "pageDot")!)
-        spacePageControl5.setCurrentPageIndicatorImage(UIImage(named: "currentPageDot")!)
+        spacePageControl5.setPageIndicatorImage(UIImage(named: "pokemen_color")!)
+        spacePageControl5.setCurrentPageIndicatorImage(UIImage(named: "pikatsho")!)
      
         spacePageControl6.setPageIndicatorImage(UIImage(named: "pageDot")!)
         spacePageControl6.setCurrentPageIndicatorImage(UIImage(named: "currentPageDot")!)
@@ -49,20 +49,17 @@ class ViewController: UIViewController {
         spacePageControl6.setCurrentImage(UIImage(named: "currentSearchDot")!,pageIndex: 0)
     
         spacePageControl6.setImage(UIImage(named: "pageDot")!, pageIndex: 1)
-        spacePageControl6.setCurrentImage(UIImage(named: "currentAppleDot")!,pageIndex: 1)
         spacePageControl6.setName("Search", pageIndex: 0)
-        spacePageControl6.setName("Apple", pageIndex: 1)
         spacePageControl6.setCurrentPage(1)
         
  
         spacePageControl7.pageIndicatorTintColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.7)
         spacePageControl7.currentPageIndicatorTintColor = UIColor.yellowColor()
-        spacePageControl7.setImageMask(UIImage(named: "appleMask")!, pageIndex: 1)
         spacePageControl7.setImageMask(UIImage(named: "searchMask")!, pageIndex: 0)
 
         spacePageControl8.pageIndicatorTintColor = UIColor.redColor().colorWithAlphaComponent(0.2)
         spacePageControl8.currentPageIndicatorTintColor = UIColor.redColor()
-        spacePageControl8.setPageIndicatorMaskImage(UIImage(named: "appleMask")!)
+        spacePageControl8.setPageIndicatorMaskImage(UIImage(named: "Pokemon")!)
         
         
         spacePageControl1.addTarget(self, action: #selector(ViewController.spacePageControl(_:)), forControlEvents:  UIControlEvents.ValueChanged)

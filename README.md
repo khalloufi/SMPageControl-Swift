@@ -1,6 +1,9 @@
 # SMPageControl-Swift
 
-![Screenshot](https://github.com/khalloufi/SMPageControl-Swift/blob/master/images/SMPageControl.png)
+![Screenshot](https://github.com/khalloufi/SMPageControl-Swift/blob/master/Screens/Screen.png)
+
+## Installation
+Download the repository and add the file SMPageControl.swift to your project.
 
 ## Example Usage
 
@@ -28,5 +31,7 @@ pageControl.setImage(UIImage(named: "appleDot")!, pageIndex: 1)
 pageControl.setCurrentImage(UIImage(named: "currentAppleDot")!,pageIndex: 1)
 pageControl.setName("Search", pageIndex: 0)
 pageControl.setName("Apple", pageIndex: 1)
-
 ```
+## License
+
+SMPageControl is available under the MIT license.
